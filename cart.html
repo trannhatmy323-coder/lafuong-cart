@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Giỏ hàng</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .item {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .remove {
+      color: red;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Giỏ hàng</h2>
+
+<div id="cart"></div>
+
+<h3 id="total"></h3>
+
+<script>
+function loadCart() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartDiv = document.getElementById("cart");
+  cartDiv.innerHTML = "";
+
+  let total = 0;
+
+  if (cart.length === 0) {
+    cartDiv.innerHTML = "<p>Giỏ hàng trống</p>";
+    document.getElementById("total").innerText = "";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
+
+    cartDiv.innerHTML += `
+      <div class="item">
+        <strong>${item.name}</strong><br>
+        Giá: ${item.price.toLocaleString()}₫ <br>
+        Số lượng: ${item.quantity} 
+        <span class="remove" onclick="removeItem(${index})">Xóa</span>
+      </div>
+    `;
+  });
+
+  document.getElementById("total").innerText =
+    "Tổng cộng: " + total.toLocaleString() + "₫";
+}
+
+function removeItem(index) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  loadCart();
+}
+
+loadCart();
+</script>
+
+</body>
+</html>
