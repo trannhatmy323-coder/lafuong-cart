@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Sản phẩm</title>
+</head>
+<body>
+
+<h2>Little Hopper</h2>
+<p>Giá: 450.000₫</p>
+
+<button onclick="addToCart()">
+  Thêm vào giỏ hàng
+</button>
+
+<script>
+function addToCart() {
+  const product = {
+    id: "little-hopper",
+    name: "Little Hopper",
+    price: 450000,
+    quantity: 1
+  };
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const existing = cart.find(item => item.id === product.id);
+
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push(product);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  alert("Đã thêm vào giỏ hàng!");
+}
+</script>
+
+</body>
+</html>
