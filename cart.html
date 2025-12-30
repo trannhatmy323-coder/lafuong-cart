@@ -1,62 +1,78 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Giỏ hàng</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    .item {
-      border-bottom: 1px solid #ddd;
-      padding: 10px 0;
-    }
-    .remove {
-      color: red;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Giỏ hàng</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th, td { padding: 10px; border-bottom: 1px solid #ccc; text-align: center; }
+  img { width: 80px; height: auto; }
+  button { padding: 5px 10px; }
+  input.qty { width: 50px; text-align: center; }
+</style>
 </head>
 <body>
-
-<h2>Giỏ hàng</h2>
-
-<div id="cart"></div>
-
-<h3 id="total"></h3>
+<h2>Giỏ hàng của bạn</h2>
+<table id="cart-table">
+  <thead>
+    <tr>
+      <th>Ảnh</th>
+      <th>Sản phẩm</th>
+      <th>Giá</th>
+      <th>Số lượng</th>
+      <th>Tổng</th>
+      <th>Xóa</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<h3 id="grand-total">Tổng cộng: 0₫</h3>
 
 <script>
 function loadCart() {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const cartDiv = document.getElementById("cart");
-  cartDiv.innerHTML = "";
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const tbody = document.querySelector("#cart-table tbody");
+  tbody.innerHTML = "";
 
-  let total = 0;
-
-  if (cart.length === 0) {
-    cartDiv.innerHTML = "<p>Giỏ hàng trống</p>";
-    document.getElementById("total").innerText = "";
-    return;
-  }
+  let grandTotal = 0;
 
   cart.forEach((item, index) => {
-    const itemTotal = item.price * item.quantity;
-    total += itemTotal;
+    const total = item.price * item.quantity;
+    grandTotal += total;
 
-    cartDiv.innerHTML += `
-      <div class="item">
-        <strong>${item.name}</strong><br>
-        Giá: ${item.price.toLocaleString()}₫ <br>
-        Số lượng: ${item.quantity} 
-        <span class="remove" onclick="removeItem(${index})">Xóa</span>
-      </div>
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><img src="${item.image}" alt="${item.name}"></td>
+      <td>${item.name}</td>
+      <td>${item.price.toLocaleString()}₫</td>
+      <td>
+        <button onclick="changeQty(${index}, -1)">-</button>
+        <input class="qty" type="number" value="${item.quantity}" min="1" onchange="updateQty(${index}, this.value)">
+        <button onclick="changeQty(${index}, 1)">+</button>
+      </td>
+      <td id="total-${index}">${total.toLocaleString()}₫</td>
+      <td><button onclick="removeItem(${index})">Xóa</button></td>
     `;
+    tbody.appendChild(tr);
   });
 
-  document.getElementById("total").innerText =
-    "Tổng cộng: " + total.toLocaleString() + "₫";
+  document.getElementById("grand-total").innerText = `Tổng cộng: ${grandTotal.toLocaleString()}₫`;
+}
+
+function changeQty(index, delta) {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart[index].quantity += delta;
+  if(cart[index].quantity < 1) cart[index].quantity = 1;
+  localStorage.setItem("cart", JSON.stringify(cart));
+  loadCart();
+}
+
+function updateQty(index, value) {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart[index].quantity = parseInt(value) || 1;
+  localStorage.setItem("cart", JSON.stringify(cart));
+  loadCart();
 }
 
 function removeItem(index) {
@@ -66,8 +82,8 @@ function removeItem(index) {
   loadCart();
 }
 
+// Load giỏ hàng khi mở trang
 loadCart();
 </script>
-
 </body>
 </html>
