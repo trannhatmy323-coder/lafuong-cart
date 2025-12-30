@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thêm vào giỏ</title>
+</head>
+<body>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+const product = {
+  id: params.get("id"),
+  name: params.get("name"),
+  price: Number(params.get("price")),
+  image: params.get("image"),
+  quantity: 1
+};
+
+if (product.id) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const existing = cart.find(item => item.id === product.id);
+
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push(product);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// Tự quay về trang trước
+history.back();
+</script>
+
+</body>
+</html>
