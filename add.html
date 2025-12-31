@@ -12,7 +12,7 @@ const product = {
   id: params.get("id"),
   name: params.get("name"),
   price: Number(params.get("price")),
-  image: params.get("image"),
+  image: decodeURIComponent(params.get("image")),
   quantity: Number(params.get("qty")) || 1
 };
 
