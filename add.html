@@ -13,7 +13,7 @@ const product = {
   name: params.get("name"),
   price: Number(params.get("price")),
   image: params.get("image"),
-  quantity: Number(params.get("quantity")) || 1
+  quantity: Number(params.get("qty")) || 1
 };
 
 if (product.id) {
