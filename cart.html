@@ -3,94 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <title>Giỏ hàng</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap" rel="stylesheet">
 <style>
-body { font-family: Arial, sans-serif; padding: 20px; background:#f8f9fa; }
-h2 { margin-top:0; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-th, td { padding: 12px; border-bottom: 1px solid #eee; text-align:center; vertical-align:middle; }
-img { width:80px; height:auto; border-radius:6px; }
-button { cursor:pointer; }
-input.qty { width:50px; text-align:center; border-radius:6px; border:1px solid #ccc; padding:5px; }
-#grand-total { margin-top:20px; font-size:18px; font-weight:bold; }
+body {
+  margin:0;
+  font-family: "Lora", serif;
+  background:#faf9f7;
+  color:#111;
+  padding:20px;
+}
+
+/* EMPTY CART */
+.cart-empty {
+  min-height: 60vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.empty-box {
+  text-align:center;
+  max-width:420px;
+  padding:40px;
+}
+
+.empty-title {
+  font-size:22px;
+  margin-bottom:12px;
+}
+
+.empty-sub {
+  font-size:14px;
+  color:#777;
+  line-height:1.8;
+  margin-bottom:32px;
+}
+
+.empty-btn {
+  display:inline-block;
+  padding:14px 36px;
+  border:1px solid #111;
+  border-radius:999px;
+  font-size:12px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:#111;
+}
+.empty-btn:hover {
+  background:#111;
+  color:#fff;
+}
+
+/* CART PAGE */
+.cart-page { max-width:820px; margin:0 auto; display:none; }
+.cart-title { font-size:26px; margin-bottom:40px; }
+
+.cart-item {
+  display:grid;
+  grid-template-columns:110px 1fr auto;
+  gap:24px;
+  padding:24px 0;
+  border-bottom:1px solid #e5e5e5;
+}
+
+.cart-item img { width:110px; border-radius:12px; }
+
+.item-name { font-size:18px; margin:0; }
+.item-desc { font-size:13px; color:#777; margin:6px 0 18px; }
+
+.qty { display:inline-flex; gap:14px; font-size:15px; }
+.qty button { border:none; background:#eee; border-radius:6px; width:28px; height:28px; cursor:pointer; }
+.qty input { width:50px; text-align:center; border:1px solid #ccc; border-radius:6px; }
+
+.price { font-size:16px; text-align:right; }
+
+.cart-summary {
+  margin-top:50px;
+  padding-top:30px;
+  border-top:1px solid #e5e5e5;
+}
+.cart-summary div {
+  display:flex;
+  justify-content:space-between;
+  font-size:15px;
+  margin-bottom:12px;
+}
+.cart-summary .total { font-size:18px; margin-top:18px; }
+
+.checkout {
+  width:100%;
+  margin-top:30px;
+  padding:16px;
+  border:none;
+  border-radius:999px;
+  background:#111;
+  color:#fff;
+  font-size:12px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+}
 </style>
 </head>
 <body>
-<h2>Giỏ hàng của bạn</h2>
 
-<table id="cart-table">
-  <thead>
-    <tr>
-      <th>Ảnh</th>
-      <th>Sản phẩm</th>
-      <th>Giá</th>
-      <th>Số lượng</th>
-      <th>Tổng</th>
-      <th>Xóa</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+<!-- EMPTY CART -->
+<div class="cart-empty" id="empty-cart">
+  <div class="empty-box">
+    <p class="empty-title">Giỏ hàng của bạn đang trống</p>
+    <p class="empty-sub">Hãy khám phá thêm những chiếc entremet tinh tế, được làm thủ công mỗi ngày.</p>
+    <a href="index.html" class="empty-btn">Khám phá bộ sưu tập</a>
+  </div>
+</div>
 
-<h3 id="grand-total">Tổng cộng: 0₫</h3>
+<!-- CART PAGE -->
+<div class="cart-page" id="cart-page">
+  <h1 class="cart-title">Giỏ hàng</h1>
+  <div id="cart-items"></div>
+
+  <div class="cart-summary">
+    <div><span>Tạm tính</span><span id="subtotal">0₫</span></div>
+    <div class="total"><span>Tổng cộng</span><span id="grand-total">0₫</span></div>
+    <button class="checkout">Tiến hành thanh toán</button>
+  </div>
+</div>
 
 <script>
 // Load giỏ hàng từ localStorage
 function loadCart() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const tbody = document.querySelector("#cart-table tbody");
-  tbody.innerHTML = "";
+  const cartPage = document.getElementById("cart-page");
+  const emptyCart = document.getElementById("empty-cart");
+  const container = document.getElementById("cart-items");
+  container.innerHTML = "";
+
+  if(cart.length === 0) {
+    cartPage.style.display = "none";
+    emptyCart.style.display = "flex";
+    return;
+  }
+
+  cartPage.style.display = "block";
+  emptyCart.style.display = "none";
+
   let grandTotal = 0;
 
-  cart.forEach((item, index) => {
+  cart.forEach((item,index) => {
     const total = item.price * item.quantity;
     grandTotal += total;
 
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><img src="${item.image}" alt="${item.name}"></td>
-      <td>${item.name}</td>
-      <td>${item.price.toLocaleString()}₫</td>
-      <td>
-        <button onclick="changeQty(${index}, -1)">-</button>
-        <input class="qty" type="number" value="${item.quantity}" min="1" onchange="updateQty(${index}, this.value)">
-        <button onclick="changeQty(${index}, 1)">+</button>
-      </td>
-      <td id="total-${index}">${total.toLocaleString()}₫</td>
-      <td><button onclick="removeItem(${index})" style="padding:5px 10px; border-radius:6px; border:none; background:#dc3545; color:#fff;">Xóa</button></td>
+    const div = document.createElement("div");
+    div.className = "cart-item";
+    div.innerHTML = `
+      <img src="${item.image}" alt="${item.name}">
+      <div>
+        <p class="item-name">${item.name}</p>
+        <p class="item-desc">${item.desc || ""}</p>
+        <div class="qty">
+          <button onclick="changeQty(${index},-1)">−</button>
+          <input type="number" value="${item.quantity}" min="1" onchange="updateQty(${index},this.value)">
+          <button onclick="changeQty(${index},1)">+</button>
+        </div>
+      </div>
+      <div class="price">${total.toLocaleString()}₫</div>
     `;
-    tbody.appendChild(tr);
+    container.appendChild(div);
   });
 
-  document.getElementById("grand-total").innerText = `Tổng cộng: ${grandTotal.toLocaleString()}₫`;
+  document.getElementById("subtotal").innerText = grandTotal.toLocaleString()+"₫";
+  document.getElementById("grand-total").innerText = grandTotal.toLocaleString()+"₫";
 }
 
 // Thay đổi số lượng
-function changeQty(index, delta) {
+function changeQty(index,delta){
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   cart[index].quantity += delta;
   if(cart[index].quantity < 1) cart[index].quantity = 1;
-  localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem("cart",JSON.stringify(cart));
   loadCart();
 }
 
-// Cập nhật số lượng khi input thay đổi
-function updateQty(index, value) {
+// Cập nhật số lượng từ input
+function updateQty(index,value){
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart[index].quantity = parseInt(value) || 1;
-  localStorage.setItem("cart", JSON.stringify(cart));
+  cart[index].quantity = parseInt(value)||1;
+  localStorage.setItem("cart",JSON.stringify(cart));
   loadCart();
 }
 
-// Xóa sản phẩm
-function removeItem(index) {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.splice(index,1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  loadCart();
-}
-
-// Load giỏ hàng khi mở trang
+// Load khi mở trang
 loadCart();
 </script>
+
 </body>
 </html>
