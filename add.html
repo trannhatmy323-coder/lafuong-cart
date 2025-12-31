@@ -10,16 +10,16 @@ const params = new URLSearchParams(window.location.search);
 
 const product = {
   id: params.get("id"),
-  name: params.get("name"),
+  name: decodeURIComponent(params.get("name")),
   price: Number(params.get("price")),
-  image: decodeURIComponent(params.get("image")),
-  quantity: Number(params.get("qty")) || 1
+  quantity: Number(params.get("qty")) || 1,
+  image: decodeURIComponent(params.get("image")) // decode link ảnh
 };
 
-if (product.id) {
+if(product.id){
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   const existing = cart.find(item => item.id === product.id);
-  if (existing) {
+  if(existing){
     existing.quantity += product.quantity;
   } else {
     cart.push(product);
@@ -28,5 +28,6 @@ if (product.id) {
   window.location.href = "cart.html";
 }
 </script>
+  
 </body>
 </html>
