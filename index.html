@@ -12,6 +12,10 @@
 <button onclick="addToCart()">
   Thêm vào giỏ hàng
 </button>
+<img id="product-image" src="https://images.prismic.io/lf-web/aC30RCdWJ-7kSZ7d_Litter-hopper-01.png?auto=format&width=960&height=960&q=80&fit=max&w=1920" alt="Little Hopper">
+<input type="number" id="product-qty" value="1" min="1">
+
+<button onclick="addToCart()">Thêm vào giỏ hàng</button>
 
 <script>
 function addToCart() {
@@ -19,26 +23,21 @@ function addToCart() {
     id: "little-hopper",
     name: "Little Hopper",
     price: 450000,
-    quantity: 1,
-    image: "https://images.prismic.io/lf-web/aC30RCdWJ-7kSZ7d_Litter-hopper-01.png?auto=format&width=960&height=960&q=80&fit=max&w=1920"
+    quantity: parseInt(document.getElementById("product-qty").value),
+    image: encodeURIComponent(document.getElementById("product-image").src) // encode link ảnh
   };
 
-
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  const existing = cart.find(item => item.id === product.id);
-
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push(product);
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  alert("Đã thêm vào giỏ hàng!");
+  // Sử dụng iframe để add vào add.html
+  const iframe = document.getElementById("cart-frame");
+  iframe.src = "add.html?id=" + product.id +
+               "&name=" + encodeURIComponent(product.name) +
+               "&price=" + product.price +
+               "&qty=" + product.quantity +
+               "&image=" + product.image;
 }
 </script>
+
+<iframe id="cart-frame" style="display:none;"></iframe>
 
 </body>
 </html>
