@@ -55,45 +55,52 @@ body {
   color:#fff;
 }
 
-/* CART PAGE */
-.cart-page { max-width:820px; margin:0 auto; display:none; }
-.cart-title { font-size:26px; margin-bottom:40px; }
+/* CART TABLE STYLE */
+.cart-page { max-width:900px; margin:0 auto; display:none; }
+.cart-title { font-size:26px; margin-bottom:30px; }
 
-.cart-item {
-  display:grid;
-  grid-template-columns:110px 1fr auto;
-  gap:24px;
-  padding:24px 0;
-  border-bottom:1px solid #e5e5e5;
+.cart-table {
+  width:100%;
+  border-collapse: collapse;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
-.cart-item img { width:110px; border-radius:12px; }
+.cart-table th, .cart-table td {
+  padding:14px;
+  text-align:center;
+  border-bottom:1px solid #eee;
+}
 
-.item-name { font-size:18px; margin:0; }
-.item-desc { font-size:13px; color:#777; margin:6px 0 18px; }
+.cart-table th { font-weight:500; font-size:14px; }
+.cart-table td img { width:80px; border-radius:8px; }
 
-.qty { display:inline-flex; gap:14px; font-size:15px; }
+.qty { display:inline-flex; gap:8px; justify-content:center; align-items:center; }
 .qty button { border:none; background:#eee; border-radius:6px; width:28px; height:28px; cursor:pointer; }
 .qty input { width:50px; text-align:center; border:1px solid #ccc; border-radius:6px; }
 
-.price { font-size:16px; text-align:right; }
+.price, .total-price { font-size:15px; text-align:right; }
+
+.remove-btn { padding:6px 12px; border:none; border-radius:6px; background:#dc3545; color:#fff; cursor:pointer; }
 
 .cart-summary {
-  margin-top:50px;
-  padding-top:30px;
+  margin-top:30px;
+  padding-top:20px;
   border-top:1px solid #e5e5e5;
 }
 .cart-summary div {
   display:flex;
   justify-content:space-between;
   font-size:15px;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
-.cart-summary .total { font-size:18px; margin-top:18px; }
+.cart-summary .total { font-size:18px; font-weight:500; }
 
 .checkout {
   width:100%;
-  margin-top:30px;
+  margin-top:20px;
   padding:16px;
   border:none;
   border-radius:999px;
@@ -120,7 +127,19 @@ body {
 <!-- CART PAGE -->
 <div class="cart-page" id="cart-page">
   <h1 class="cart-title">Giỏ hàng</h1>
-  <div id="cart-items"></div>
+
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Ảnh</th>
+        <th>Sản phẩm / Giá</th>
+        <th>Số lượng</th>
+        <th>Tổng giá</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody id="cart-items"></tbody>
+  </table>
 
   <div class="cart-summary">
     <div><span>Tạm tính</span><span id="subtotal">0₫</span></div>
@@ -135,8 +154,8 @@ function loadCart() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const cartPage = document.getElementById("cart-page");
   const emptyCart = document.getElementById("empty-cart");
-  const container = document.getElementById("cart-items");
-  container.innerHTML = "";
+  const tbody = document.getElementById("cart-items");
+  tbody.innerHTML = "";
 
   if(cart.length === 0) {
     cartPage.style.display = "none";
@@ -153,22 +172,24 @@ function loadCart() {
     const total = item.price * item.quantity;
     grandTotal += total;
 
-    const div = document.createElement("div");
-    div.className = "cart-item";
-    div.innerHTML = `
-      <img src="${item.image}" alt="${item.name}">
-      <div>
-        <p class="item-name">${item.name}</p>
-        <p class="item-desc">${item.desc || ""}</p>
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><img src="${item.image}" alt="${item.name}"></td>
+      <td>
+        <div>${item.name}</div>
+        <div class="price">${item.price.toLocaleString()}₫</div>
+      </td>
+      <td>
         <div class="qty">
           <button onclick="changeQty(${index},-1)">−</button>
           <input type="number" value="${item.quantity}" min="1" onchange="updateQty(${index},this.value)">
           <button onclick="changeQty(${index},1)">+</button>
         </div>
-      </div>
-      <div class="price">${total.toLocaleString()}₫</div>
+      </td>
+      <td class="total-price">${total.toLocaleString()}₫</td>
+      <td><button class="remove-btn" onclick="removeItem(${index})">Xóa</button></td>
     `;
-    container.appendChild(div);
+    tbody.appendChild(tr);
   });
 
   document.getElementById("subtotal").innerText = grandTotal.toLocaleString()+"₫";
@@ -192,9 +213,18 @@ function updateQty(index,value){
   loadCart();
 }
 
+// Xóa sản phẩm
+function removeItem(index){
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart.splice(index,1);
+  localStorage.setItem("cart",JSON.stringify(cart));
+  loadCart();
+}
+
 // Load khi mở trang
 loadCart();
 </script>
 
 </body>
 </html>
+
