@@ -7,7 +7,7 @@
 <style>
 body {
   margin:0;
-  font-family: "Lora", serif;
+  font-family:"Lora", serif;
   background:#faf9f7;
   color:#111;
   padding:20px;
@@ -15,30 +15,26 @@ body {
 
 /* EMPTY CART */
 .cart-empty {
-  min-height: 60vh;
+  min-height:60vh;
   display:flex;
   justify-content:center;
   align-items:center;
 }
-
 .empty-box {
   text-align:center;
   max-width:420px;
   padding:40px;
 }
-
 .empty-title {
   font-size:22px;
   margin-bottom:12px;
 }
-
 .empty-sub {
   font-size:14px;
   color:#777;
   line-height:1.8;
   margin-bottom:32px;
 }
-
 .empty-btn {
   display:inline-block;
   padding:14px 36px;
@@ -55,36 +51,62 @@ body {
   color:#fff;
 }
 
-/* CART TABLE STYLE */
-.cart-page { max-width:900px; margin:0 auto; display:none; }
+/* CART PAGE */
+.cart-page {
+  max-width:900px;
+  margin:0 auto;
+  display:none;
+}
 .cart-title { font-size:26px; margin-bottom:30px; }
 
-.cart-table {
-  width:100%;
-  border-collapse: collapse;
+/* CART ITEM GRID */
+.cart-item {
+  display:grid;
+  grid-template-columns:100px 1fr 120px 100px 80px;
+  gap:12px;
   background:#fff;
   border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  padding:16px;
+  align-items:center;
+  margin-bottom:16px;
 }
-
-.cart-table th, .cart-table td {
-  padding:14px;
+.cart-item img {
+  width:80px;
+  border-radius:8px;
+}
+.item-name { font-size:16px; font-weight:500; }
+.item-price { font-size:14px; color:#555; margin-top:4px; }
+.qty {
+  display:inline-flex;
+  gap:6px;
+  justify-content:center;
+  align-items:center;
+}
+.qty button {
+  border:none;
+  background:#eee;
+  border-radius:6px;
+  width:28px;
+  height:28px;
+  cursor:pointer;
+}
+.qty input {
+  width:50px;
   text-align:center;
-  border-bottom:1px solid #eee;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+.total-price { font-size:15px; text-align:right; }
+.remove-btn {
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  background:#dc3545;
+  color:#fff;
+  cursor:pointer;
 }
 
-.cart-table th { font-weight:500; font-size:14px; }
-.cart-table td img { width:80px; border-radius:8px; }
-
-.qty { display:inline-flex; gap:8px; justify-content:center; align-items:center; }
-.qty button { border:none; background:#eee; border-radius:6px; width:28px; height:28px; cursor:pointer; }
-.qty input { width:50px; text-align:center; border:1px solid #ccc; border-radius:6px; }
-
-.price, .total-price { font-size:15px; text-align:right; }
-
-.remove-btn { padding:6px 12px; border:none; border-radius:6px; background:#dc3545; color:#fff; cursor:pointer; }
-
+/* CART SUMMARY */
 .cart-summary {
   margin-top:30px;
   padding-top:20px;
@@ -96,8 +118,10 @@ body {
   font-size:15px;
   margin-bottom:10px;
 }
-.cart-summary .total { font-size:18px; font-weight:500; }
-
+.cart-summary .total {
+  font-size:18px;
+  font-weight:500;
+}
 .checkout {
   width:100%;
   margin-top:20px;
@@ -110,6 +134,12 @@ body {
   letter-spacing:1px;
   text-transform:uppercase;
   cursor:pointer;
+}
+
+/* RESPONSIVE MOBILE */
+@media(max-width:600px){
+  .cart-item { grid-template-columns:80px 1fr; grid-template-rows:auto auto auto; gap:8px; }
+  .qty, .total-price, .remove-btn { grid-column:1/-1; text-align:center; }
 }
 </style>
 </head>
@@ -127,19 +157,7 @@ body {
 <!-- CART PAGE -->
 <div class="cart-page" id="cart-page">
   <h1 class="cart-title">Giỏ hàng</h1>
-
-  <table class="cart-table">
-    <thead>
-      <tr>
-        <th>Ảnh</th>
-        <th>Sản phẩm / Giá</th>
-        <th>Số lượng</th>
-        <th>Tổng giá</th>
-        <th>Xóa</th>
-      </tr>
-    </thead>
-    <tbody id="cart-items"></tbody>
-  </table>
+  <div id="cart-items"></div>
 
   <div class="cart-summary">
     <div><span>Tạm tính</span><span id="subtotal">0₫</span></div>
@@ -150,72 +168,71 @@ body {
 
 <script>
 // Load giỏ hàng từ localStorage
-function loadCart() {
+function loadCart(){
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const cartPage = document.getElementById("cart-page");
   const emptyCart = document.getElementById("empty-cart");
-  const tbody = document.getElementById("cart-items");
-  tbody.innerHTML = "";
+  const container = document.getElementById("cart-items");
+  container.innerHTML="";
 
-  if(cart.length === 0) {
-    cartPage.style.display = "none";
-    emptyCart.style.display = "flex";
+  if(cart.length===0){
+    cartPage.style.display="none";
+    emptyCart.style.display="flex";
     return;
   }
 
-  cartPage.style.display = "block";
-  emptyCart.style.display = "none";
+  cartPage.style.display="block";
+  emptyCart.style.display="none";
 
-  let grandTotal = 0;
+  let grandTotal=0;
 
-  cart.forEach((item,index) => {
-    const total = item.price * item.quantity;
-    grandTotal += total;
+  cart.forEach((item,index)=>{
+    const total=item.price*item.quantity;
+    grandTotal+=total;
 
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><img src="${item.image}" alt="${item.name}"></td>
-      <td>
-        <div>${item.name}</div>
-        <div class="price">${item.price.toLocaleString()}₫</div>
-      </td>
-      <td>
-        <div class="qty">
-          <button onclick="changeQty(${index},-1)">−</button>
-          <input type="number" value="${item.quantity}" min="1" onchange="updateQty(${index},this.value)">
-          <button onclick="changeQty(${index},1)">+</button>
-        </div>
-      </td>
-      <td class="total-price">${total.toLocaleString()}₫</td>
-      <td><button class="remove-btn" onclick="removeItem(${index})">Xóa</button></td>
+    const div=document.createElement("div");
+    div.className="cart-item";
+    div.innerHTML=`
+      <div><img src="${item.image}" alt="${item.name}"></div>
+      <div>
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">${item.price.toLocaleString()}₫</div>
+      </div>
+      <div class="qty">
+        <button onclick="changeQty(${index},-1)">−</button>
+        <input type="number" value="${item.quantity}" min="1" onchange="updateQty(${index},this.value)">
+        <button onclick="changeQty(${index},1)">+</button>
+      </div>
+      <div class="total-price">${total.toLocaleString()}₫</div>
+      <div><button class="remove-btn" onclick="removeItem(${index})">Xóa</button></div>
     `;
-    tbody.appendChild(tr);
+    container.appendChild(div);
   });
 
-  document.getElementById("subtotal").innerText = grandTotal.toLocaleString()+"₫";
-  document.getElementById("grand-total").innerText = grandTotal.toLocaleString()+"₫";
+  document.getElementById("subtotal").innerText=grandTotal.toLocaleString()+"₫";
+  document.getElementById("grand-total").innerText=grandTotal.toLocaleString()+"₫";
 }
 
 // Thay đổi số lượng
 function changeQty(index,delta){
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart[index].quantity += delta;
-  if(cart[index].quantity < 1) cart[index].quantity = 1;
+  const cart=JSON.parse(localStorage.getItem("cart"))||[];
+  cart[index].quantity+=delta;
+  if(cart[index].quantity<1) cart[index].quantity=1;
   localStorage.setItem("cart",JSON.stringify(cart));
   loadCart();
 }
 
 // Cập nhật số lượng từ input
 function updateQty(index,value){
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart[index].quantity = parseInt(value)||1;
+  const cart=JSON.parse(localStorage.getItem("cart"))||[];
+  cart[index].quantity=parseInt(value)||1;
   localStorage.setItem("cart",JSON.stringify(cart));
   loadCart();
 }
 
 // Xóa sản phẩm
 function removeItem(index){
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cart=JSON.parse(localStorage.getItem("cart"))||[];
   cart.splice(index,1);
   localStorage.setItem("cart",JSON.stringify(cart));
   loadCart();
