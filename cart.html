@@ -25,16 +25,8 @@ body {
   max-width:420px;
   padding:40px;
 }
-.empty-title {
-  font-size:22px;
-  margin-bottom:12px;
-}
-.empty-sub {
-  font-size:14px;
-  color:#777;
-  line-height:1.8;
-  margin-bottom:32px;
-}
+.empty-title { font-size:22px; margin-bottom:12px; }
+.empty-sub { font-size:14px; color:#777; line-height:1.8; margin-bottom:32px; }
 .empty-btn {
   display:inline-block;
   padding:14px 36px;
@@ -46,17 +38,10 @@ body {
   text-decoration:none;
   color:#111;
 }
-.empty-btn:hover {
-  background:#111;
-  color:#fff;
-}
+.empty-btn:hover { background:#111; color:#fff; }
 
 /* CART PAGE */
-.cart-page {
-  max-width:900px;
-  margin:0 auto;
-  display:none;
-}
+.cart-page { max-width:900px; margin:0 auto; display:none; }
 .cart-title { font-size:26px; margin-bottom:30px; }
 
 /* CART ITEM GRID */
@@ -70,41 +55,14 @@ body {
   align-items:center;
   margin-bottom:16px;
 }
-.cart-item img {
-  width:80px;
-  border-radius:8px;
-}
+.cart-item img { width:80px; border-radius:8px; }
 .item-name { font-size:16px; font-weight:500; }
 .item-price { font-size:14px; color:#555; margin-top:4px; }
-.qty {
-  display:inline-flex;
-  gap:6px;
-  justify-content:center;
-  align-items:center;
-}
-.qty button {
-  border:none;
-  background:#eee;
-  border-radius:6px;
-  width:28px;
-  height:28px;
-  cursor:pointer;
-}
-.qty input {
-  width:50px;
-  text-align:center;
-  border:1px solid #ccc;
-  border-radius:6px;
-}
+.qty { display:inline-flex; gap:6px; justify-content:center; align-items:center; }
+.qty button { border:none; background:#eee; border-radius:6px; width:28px; height:28px; cursor:pointer; }
+.qty input { width:50px; text-align:center; border:1px solid #ccc; border-radius:6px; }
 .total-price { font-size:15px; text-align:right; }
-.remove-btn {
-  padding:6px 12px;
-  border:none;
-  border-radius:6px;
-  background:#dc3545;
-  color:#fff;
-  cursor:pointer;
-}
+.remove-btn { padding:6px 12px; border:none; border-radius:6px; background:#dc3545; color:#fff; cursor:pointer; }
 
 /* CART SUMMARY */
 .cart-summary {
@@ -112,16 +70,8 @@ body {
   padding-top:20px;
   border-top:1px solid #e5e5e5;
 }
-.cart-summary div {
-  display:flex;
-  justify-content:space-between;
-  font-size:15px;
-  margin-bottom:10px;
-}
-.cart-summary .total {
-  font-size:18px;
-  font-weight:500;
-}
+.cart-summary div { display:flex; justify-content:space-between; font-size:15px; margin-bottom:10px; }
+.cart-summary .total { font-size:18px; font-weight:500; }
 .checkout {
   width:100%;
   margin-top:20px;
@@ -167,12 +117,27 @@ body {
 </div>
 
 <script>
-// Load giỏ hàng từ localStorage
+// Khởi tạo giỏ hàng nếu rỗng
+function initCart() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  if(cart.length===0){
+    cart=[{
+      name:"Entremet Vanille",
+      price:210000,
+      quantity:1,
+      image:"https://via.placeholder.com/100"
+    }];
+    localStorage.setItem("cart",JSON.stringify(cart));
+  }
+}
+initCart();
+
+// Load giỏ hàng
 function loadCart(){
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const cartPage = document.getElementById("cart-page");
-  const emptyCart = document.getElementById("empty-cart");
-  const container = document.getElementById("cart-items");
+  const cart=JSON.parse(localStorage.getItem("cart"))||[];
+  const cartPage=document.getElementById("cart-page");
+  const emptyCart=document.getElementById("empty-cart");
+  const container=document.getElementById("cart-items");
   container.innerHTML="";
 
   if(cart.length===0){
@@ -244,4 +209,3 @@ loadCart();
 
 </body>
 </html>
-
