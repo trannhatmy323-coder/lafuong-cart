@@ -38,18 +38,18 @@ body {
 }
 .empty-title {
   font-weight: bold;
-  font-size:80px;
+  font-size:36px;
   text-align: center;
   margin-top: px;
-  margin-bottom:50px;
+  margin-bottom:20px;
   font-weight: normal;
 }
 .empty-sub {
-  font-size: 32px;
+  font-size: 18px;
   color:var(--subtext-color);
 }
 .empty-sub2 {
-  font-size: 32px;
+  font-size: 18px;
   color: var(--subtext-color);
 }
 .empty-box p {
@@ -57,58 +57,55 @@ body {
 }
 
 .empty-box p + p {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /* CART PAGE */
 .cart-page {
-  max-width:1700px;
+  max-width:1000px;
   margin:0 auto;
   display:none;
 }
 .cart-title { 
-  font-size:80px; 
-  margin-bottom:80px; 
+  font-size:36px; 
+  margin-bottom:30px; 
   font-weight: 400;
 }
 
 /* CART ITEM GRID */
 .cart-item {
   display:grid;
-  grid-template-columns:380px 550px 300px 200px 100px;
+  grid-template-columns:160px 360px 180px 100px 1fr;
   gap:14px;
-  border-radius:20px;
-  padding:0px 0px 10px;
+  border-radius:10px;
   align-items:center;
-  margin-bottom:80px;
+  margin-bottom:40px;
   border: 1px solid #bababa;
 }
 
 .cart-item img {
-  margin-left: 20px;
+  margin-left: 12px;
 }
 
 .item-name {
-  padding-left: 5px;
-  font-size:52px;
+  font-size:32px;
   font-weight:400;
   letter-spacing:0.5px;
   margin-bottom: 1dvh;
 }
 
 .item-price {
-  padding-left: 5px;
-  font-size: 28px;
+  font-size: 16px;
   color:#777;
   margin-top:6px;
 }
 
 .total-price {
   font-weight: 500;
-  font-size:32px;
+  font-size:20px;
   text-align:right;
   letter-spacing:0.5px;
-  padding: 10px 0px 10px 20px;
+  padding-left: 20px;
 }
 .qty {
   display: flex;             /* xếp ngang */
@@ -120,11 +117,11 @@ body {
 .qty button {
   border: 1px solid #bababa;
   background: transparent;
-  border-radius: 5px;
-  width: 80px;
-  height: 80px;
+  border-radius: 3px;
+  width: 45px;
+  height: 45px;
   font-family: Bitter, serif;
-  font-size: 44px;
+  font-size: 24px;
   font-weight: 300;
   color:#777;
   display: flex;             /* để ký tự ± nằm giữa nút */
@@ -141,23 +138,23 @@ body {
 .qty input {
   padding-left: 20px;
   padding-right: 5px;
-  width: 80px;
+  width: 40px;
   border:none;
-  font-size: 28px;
+  font-size: 18px;
   font-family: Lora, serif;
   font-weight: 400;
   text-align: center;        /* số nằm giữa input */
 }
 
 .remove-btn {
-  margin-left: 30px;
-  padding:10px 30px;
+  margin-left: 40px;
+  padding:10px 20px;
   border:1px solid #ddd;
   border-radius:999px;
   background:transparent;
   background-color: #111;
   color:white;
-  font-size:24px;
+  font-size:12px;
   font-family: Bitter, serif;
   font-weight: 600;
   letter-spacing:2px;
@@ -172,37 +169,35 @@ body {
 }
 /* CART SUMMARY */
 .cart-summary {
-  margin-top:80px;
-  padding-top:20px;
+  padding-top:0px;
   border-top:1px solid #ddd;
 }
 
 .cart-summary div {
-  padding: 40px 0px 0px;
+  padding: 30px 0px 0px;
   display:flex;
   justify-content:space-between;
-  font-size: 36px;
+  font-size: 20px;
   color: #777;
   margin-bottom:10px;
 }
 
 .cart-summary .total {
   padding: 10px 0px;
-  margin-top: 20px;
   color: #111;
-  font-size:46px;
+  font-size:28px;
   font-weight:500;
 }
 
 .checkout {
   width:100%;
-  margin-top:40px;
-  padding:30px;
+  margin-top:10px;
+  padding:20px;
   border:1px solid #111;
   border-radius:999px;
   background:#111;
   color:#fff;
-  font-size:26px;
+  font-size:14px;
   font-weight: 500;
   font-family: Bitter, serif;
   letter-spacing:2px;
@@ -281,7 +276,7 @@ function loadCart(){
     const div=document.createElement("div");
     div.className="cart-item";
     div.innerHTML=`
-      <div><img src="${item.image}" alt="${item.name}" style="width:360px;height:360px;object-fit:cover;border-radius:6px;"></div>
+      <div><img src="${item.image}" alt="${item.name}" style="width:150px;height:150px;object-fit:cover;border-radius:6px;"></div>
       <div>
         <div class="item-name">${item.name}</div>
         <div class="item-price">${item.price.toLocaleString()}₫</div>
