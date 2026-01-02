@@ -22,25 +22,26 @@ body {
   color: var(--text-color);
   padding: 24px 16px;
   letter-spacing:0.2px;
+  display:flex;
+  justify-content:center;
 }
 
-h1 {
-  font-size: 52px;
-  font-weight: 400;
-  margin-bottom: 20px;
-  text-align:center;
+.container {
+  max-width:1000px;
+  width:100%;
 }
 
 /* Quay lại giỏ hàng */
 .back-btn {
-  display: inline-block;
-  margin-bottom: 30px;
-  padding: 10px 20px;
+  display: inline-flex;
+  align-items:center;
+  padding: 10px 15px;
   border: 1px solid #111;
-  border-radius: 6px;
+  border-radius: 5px;
   background: #111;
   color: #fff;
   font-family: Bitter, serif;
+  font-size: 16px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -54,16 +55,36 @@ h1 {
   color: #111;
 }
 
+.back-btn svg {
+  width:16px;
+  height:16px;
+  margin-right:6px;
+  fill:white;
+}
+
+.back-btn:hover svg {
+  fill:#111;
+}
+
+/* Heading */
+h1 {
+  margin-top: 5px;
+  font-size: 52px;
+  font-weight: 400;
+  margin-bottom:30px;
+  text-align:center;
+}
+
 /* CART ITEM */
 .cart-item {
   display:grid;
-  grid-template-columns:160px 1fr 100px 100px;
+  grid-template-columns:160px 400px 160px 190px;
   gap:14px;
   border-radius:10px;
   align-items:center;
   margin-bottom:20px;
   border:1px solid #bababa;
-  padding:10px;
+  padding:0px 12px;
 }
 
 .cart-item img {
@@ -77,13 +98,14 @@ h1 {
   font-size:32px;
   font-weight:400;
   letter-spacing:0.5px;
+  margin-bottom: 1dvh;
 }
 
 .item-subtitle {
   font-family: var(--font-sub);
   font-weight: 300;
   font-size:16px;
-  color:#777;
+  color:black;
   margin-top:4px;
 }
 
@@ -92,19 +114,20 @@ h1 {
   font-weight:400;
   color:black;
   margin-top:8px;
-  text-align:right;
 }
 
 .qty {
-  text-align:center;
-  font-size:16px;
+  text-align: right;
+  font-size:20px;
 }
 
 .total-price {
-  font-size:20px;
+  font-size:24px;
   font-weight:500;
+  letter-spacing: 0.2px;
   text-align:right;
   color:black;
+  padding-left: 20px;
 }
 
 /* SUMMARY */
@@ -112,33 +135,63 @@ h1 {
   margin-top:40px;
   font-size:20px;
   display:flex;
-  justify-content:space-between;
-  font-weight:500;
+  flex-direction:column;
+  gap:10px;
+  border-top:1px solid #ddd;
+  padding-top:20px;
 }
+
+.summary div {
+  display:flex;
+  justify-content:space-between;
+  padding-top: 10px;
+  color: #777;
+}
+
+.summary div.total {
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  font-weight:500;
+  font-size:28px;
+  color: #111;
+}
+
 </style>
 </head>
 <body>
 
-<h1>Thanh toán</h1>
+<div class="container">
 
-<a href="cart.html" class="back-btn">Quay lại giỏ hàng</a>
+  <!-- NÚT QUAY LẠI Ở TRÊN -->
+  <a href="cart.html" class="back-btn">
+    <!-- icon mũi tên quay lại -->
+    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    Quay lại giỏ hàng
+  </a>
 
-<div id="checkout-items"></div>
+  <h1>Thanh toán</h1>
 
-<div class="summary">
-  <span>Tổng cộng</span>
-  <span id="grand-total">0₫</span>
+  <div id="checkout-items"></div>
+
+  <div class="summary">
+    <div><span>Tạm tính</span><span id="subtotal">0₫</span></div>
+    <div><span>Phí vận chuyển</span><span id="shipping">30.000₫</span></div>
+    <div class="total"><span>Tổng cộng</span><span id="grand-total">0₫</span></div>
+  </div>
+
 </div>
 
 <script>
 // Lấy giỏ hàng từ localStorage
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
-const container = document.getElementById("checkout-items");
-let grandTotal = 0;
+const containerDiv = document.getElementById("checkout-items");
+let subtotal = 0;
+const shippingFee = 30000;
 
 cart.forEach(item => {
   const total = item.price * item.quantity;
-  grandTotal += total;
+  subtotal += total;
 
   const div = document.createElement("div");
   div.className = "cart-item";
@@ -147,14 +200,16 @@ cart.forEach(item => {
     <div>
       <div class="item-name">${item.name}</div>
       <div class="item-subtitle">${item.subtitle || ''}</div>
+      <div class="item-price">${item.price.toLocaleString()}₫</div>
     </div>
-    <div class="qty">${item.quantity} x</div>
+    <div class="qty">x${item.quantity}</div>
     <div class="total-price">${total.toLocaleString()}₫</div>
   `;
-  container.appendChild(div);
+  containerDiv.appendChild(div);
 });
 
-document.getElementById("grand-total").innerText = grandTotal.toLocaleString() + "₫";
+document.getElementById("subtotal").innerText = subtotal.toLocaleString() + "₫";
+document.getElementById("grand-total").innerText = (subtotal + shippingFee).toLocaleString() + "₫";
 </script>
 
 </body>
