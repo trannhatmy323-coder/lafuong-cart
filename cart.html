@@ -3,13 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Giỏ hàng</title>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --main-color:white;
+    --sub-color:#faf9f7;
+    --text-color: black;
+    --subtext-color: #777;
+    --font-title: 'Lora', serif;
+    --font-sub: 'Bitter', serif;
+  }
 body {
   margin:0;
-  font-family:"Lora", serif;
-  background:#faf9f7;
-  color:#111;
+  font-family: var(--font-title);
+  background: #fff;
+  color:var(--text-color);
   padding:24px 16px;
   letter-spacing:0.2px;
 }
@@ -23,115 +32,139 @@ body {
 }
 .empty-box {
   text-align:center;
-  max-width:420px;
-  padding:40px;
+  max-width:800px;
+  padding:0px;
+  margin: 0px;
 }
 .empty-title {
-  font-size:22px;
-  margin-bottom:12px;
+  font-size:30px;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom:20px;
+  font-weight: normal;
 }
 .empty-sub {
-  font-size:14px;
-  color:#777;
-  line-height:1.8;
-  margin-bottom:32px;
+  font-size: 14px;
+  color:var(--subtext-color);
 }
-.empty-btn {
-  display:inline-block;
-  padding:14px 36px;
-  border:1px solid #111;
-  border-radius:999px;
-  font-size:12px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  text-decoration:none;
-  color:#111;
+.empty-sub2 {
+  font-size: 14px;
+  color: var(--subtext-color);
 }
-.empty-btn:hover {
-  background:#111;
-  color:#fff;
+.empty-box p {
+  margin: 0;
+}
+
+.empty-box p + p {
+  margin-top: 10px;
 }
 
 /* CART PAGE */
 .cart-page {
-  max-width:900px;
+  max-width:750px;
   margin:0 auto;
   display:none;
 }
-.cart-title { font-size:26px; margin-bottom:30px; }
+.cart-title { 
+  font-size:30px; 
+  margin-bottom:30px; 
+  font-weight: normal;
+}
 
 /* CART ITEM GRID */
 .cart-item {
   display:grid;
-  grid-template-columns:90px 1fr 110px 90px 70px;
+  grid-template-columns:120px 250px 120px 120px 1fr;
   gap:14px;
-  background:#fff;
   border-radius:8px;
-  padding:20px;
+  padding:0px;
   align-items:center;
   margin-bottom:20px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.04);
+  border: 1px solid #bababa;
 }
 
 .cart-item img {
-  width:80px;
-  border-radius:6px;
+  margin-right: 10px;
+  margin-left: 5px;
 }
 
 .item-name {
-  font-size:15px;
+  font-size:20px;
   font-weight:400;
   letter-spacing:0.3px;
 }
 
 .item-price {
-  font-size:13px;
+  font-size:14px;
   color:#777;
   margin-top:6px;
 }
 
-.qty {
-  display:inline-flex;
-  gap:6px;
-  justify-content:center;
-  align-items:center;
-}
-.qty button {
-  border:1px solid #ddd;
-  background:transparent;
-  border-radius:50%;
-  width:26px;
-  height:26px;
-  font-size:14px;
-}
-
-.qty input {
-  width:44px;
-  border:1px solid #ddd;
-  border-radius:6px;
-  font-size:13px;
-}
-
 .total-price {
-  font-size:14px;
+  font-weight: 500;
+  font-size:16px;
   text-align:right;
   letter-spacing:0.3px;
+  padding: 10px 0px 10px 20px;
+  border-radius: 5px;
+}
+.qty {
+  display: flex;             /* xếp ngang */
+  justify-content: center;   /* căn giữa theo chiều ngang */
+  align-items: center;       /* căn giữa theo chiều dọc */
+  gap: 0px;                  /* khoảng cách giữa các phần tử */
+}
+
+.qty button {
+  border: 1px solid #bababa;
+  background: transparent;
+  border-radius: 3px;
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  color:#777;
+  display: flex;             /* để ký tự ± nằm giữa nút */
+  justify-content: center;   /* ngang */
+  align-items: center;       /* dọc */
+  cursor: pointer;
+  transition: transform 0.2 ease;
+}
+.qty button:hover {
+  transform: scale(1.05); /* phóng to 5% */
+  border: 1px solid #111;
+  color:#111;
+}
+.qty input {
+  padding-left: 20px;
+  padding-right: 5px;
+  width: 30px;
+  border:none;
+  font-size: 14px;
+  font-family: Lora, serif;
+  font-weight: 500;
+  text-align: center;        /* số nằm giữa input */
 }
 
 .remove-btn {
-  padding:6px 10px;
+  margin-left: 10px;
+  padding:8px 10px;
   border:1px solid #ddd;
-  border-radius:999px;
+  border-radius:800px;
   background:transparent;
-  color:#777;
+  background-color: #111;
+  color:white;
   font-size:11px;
+  font-family: Bitter, serif;
+  font-weight: 700;
   letter-spacing:1px;
   text-transform:uppercase;
 }
 
 .remove-btn:hover {
+  transform: scale(1.05); /* phóng to 5% */
+  background-color: #111;
   border-color:#111;
-  color:#111;
+  color:white;
 }
 /* CART SUMMARY */
 .cart-summary {
@@ -143,11 +176,13 @@ body {
 .cart-summary div {
   display:flex;
   justify-content:space-between;
-  font-size:14px;
+  font-size:16px;
+  color: #525252;
   margin-bottom:12px;
 }
 
 .cart-summary .total {
+  color: #111;
   font-size:18px;
   font-weight:400;
 }
@@ -160,7 +195,9 @@ body {
   border-radius:999px;
   background:#111;
   color:#fff;
-  font-size:11px;
+  font-size:12px;
+  font-weight: 600;
+  font-family: Bitter, serif;
   letter-spacing:2px;
   text-transform:uppercase;
 }
@@ -192,9 +229,9 @@ body {
 <!-- EMPTY CART -->
 <div class="cart-empty" id="empty-cart">
   <div class="empty-box">
-    <p class="empty-title">Giỏ hàng của bạn đang trống</p>
-    <p class="empty-sub">Hãy khám phá thêm những chiếc entremet tinh tế, được làm thủ công mỗi ngày.</p>
-    <a href="index.html" class="empty-btn">Khám phá bộ sưu tập</a>
+    <h1 class="empty-title">Giỏ hàng của bạn đang trống</h1>
+    <p class="empty-sub">Hiện chưa có sản phẩm nào được thêm vào giỏ. 
+      <p class="empty-sub2">Tiếp tục khám phá để tìm ra chiếc bánh của riêng bạn.</p>
   </div>
 </div>
 
@@ -237,7 +274,7 @@ function loadCart(){
     const div=document.createElement("div");
     div.className="cart-item";
     div.innerHTML=`
-      <div><img src="${item.image}" alt="${item.name}" style="width:80px;height:80px;object-fit:cover;border-radius:6px;"></div>
+      <div><img src="${item.image}" alt="${item.name}" style="width:120px;height:120px;object-fit:cover;border-radius:6px;"></div>
       <div>
         <div class="item-name">${item.name}</div>
         <div class="item-price">${item.price.toLocaleString()}₫</div>
