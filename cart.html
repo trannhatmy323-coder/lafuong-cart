@@ -38,18 +38,18 @@ body {
 }
 .empty-title {
   font-weight: bold;
-  font-size:100px;
+  font-size:80px;
   text-align: center;
   margin-top: px;
-  margin-bottom:60px;
+  margin-bottom:50px;
   font-weight: normal;
 }
 .empty-sub {
-  font-size: 52px;
+  font-size: 32px;
   color:var(--subtext-color);
 }
 .empty-sub2 {
-  font-size: 52px;
+  font-size: 32px;
   color: var(--subtext-color);
 }
 .empty-box p {
@@ -62,50 +62,50 @@ body {
 
 /* CART PAGE */
 .cart-page {
-  max-width:2600px;
+  max-width:1700px;
   margin:0 auto;
   display:none;
 }
 .cart-title { 
-  font-size:100px; 
+  font-size:80px; 
   margin-bottom:80px; 
-  font-weight: normal;
+  font-weight: 400;
 }
 
 /* CART ITEM GRID */
 .cart-item {
   display:grid;
-  grid-template-columns:430px 1000px 400px 380px 1fr;
+  grid-template-columns:380px 550px 300px 200px 100px;
   gap:14px;
   border-radius:20px;
   padding:0px 0px 10px;
   align-items:center;
   margin-bottom:80px;
-  border: 2px solid #bababa;
+  border: 1px solid #bababa;
 }
 
 .cart-item img {
-  margin-left: 40px;
+  margin-left: 20px;
 }
 
 .item-name {
   padding-left: 5px;
-  font-size:72px;
-  font-weight:500;
+  font-size:52px;
+  font-weight:400;
   letter-spacing:0.5px;
   margin-bottom: 1dvh;
 }
 
 .item-price {
   padding-left: 5px;
-  font-size: 44px;
+  font-size: 28px;
   color:#777;
   margin-top:6px;
 }
 
 .total-price {
   font-weight: 500;
-  font-size:52px;
+  font-size:32px;
   text-align:right;
   letter-spacing:0.5px;
   padding: 10px 0px 10px 20px;
@@ -114,17 +114,17 @@ body {
   display: flex;             /* xếp ngang */
   justify-content: left;   /* căn giữa theo chiều ngang */
   align-items: center;       /* căn giữa theo chiều dọc */
-  gap: 20px;                  /* khoảng cách giữa các phần tử */
+  gap: 0px;                  /* khoảng cách giữa các phần tử */
 }
 
 .qty button {
-  border: 2px solid #bababa;
+  border: 1px solid #bababa;
   background: transparent;
-  border-radius: 10px;
-  width: 100px;
-  height: 100px;
+  border-radius: 5px;
+  width: 80px;
+  height: 80px;
   font-family: Bitter, serif;
-  font-size: 54px;
+  font-size: 44px;
   font-weight: 300;
   color:#777;
   display: flex;             /* để ký tự ± nằm giữa nút */
@@ -135,29 +135,29 @@ body {
 }
 .qty button:hover {
   transform: scale(1.05); /* phóng to 5% */
-  border: 2px solid #111;
+  border: 1px solid #111;
   color:#111;
 }
 .qty input {
   padding-left: 20px;
   padding-right: 5px;
-  width: 100px;
+  width: 80px;
   border:none;
-  font-size: 44px;
+  font-size: 28px;
   font-family: Lora, serif;
   font-weight: 400;
   text-align: center;        /* số nằm giữa input */
 }
 
 .remove-btn {
-  margin-left: 70px;
-  padding:30px 50px;
+  margin-left: 30px;
+  padding:10px 30px;
   border:1px solid #ddd;
   border-radius:999px;
   background:transparent;
   background-color: #111;
   color:white;
-  font-size:32px;
+  font-size:24px;
   font-family: Bitter, serif;
   font-weight: 600;
   letter-spacing:2px;
@@ -172,39 +172,38 @@ body {
 }
 /* CART SUMMARY */
 .cart-summary {
-  padding: 100px 0px;
-  margin-top:100px;
-  padding-top:30px;
-  border-top:2px solid #ddd;
+  margin-top:80px;
+  padding-top:20px;
+  border-top:1px solid #ddd;
 }
 
 .cart-summary div {
-  padding: 50px 0px 0px;
+  padding: 40px 0px 0px;
   display:flex;
   justify-content:space-between;
-  font-size:52px;
+  font-size: 36px;
   color: #777;
   margin-bottom:10px;
 }
 
 .cart-summary .total {
-  padding: 20px 0px;
+  padding: 10px 0px;
   margin-top: 20px;
   color: #111;
-  font-size:66px;
+  font-size:46px;
   font-weight:500;
 }
 
 .checkout {
   width:100%;
   margin-top:40px;
-  padding:40px;
+  padding:30px;
   border:1px solid #111;
   border-radius:999px;
   background:#111;
   color:#fff;
-  font-size:46px;
-  font-weight: 400;
+  font-size:26px;
+  font-weight: 500;
   font-family: Bitter, serif;
   letter-spacing:2px;
   text-transform:uppercase;
