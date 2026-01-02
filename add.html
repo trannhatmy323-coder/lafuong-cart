@@ -11,6 +11,7 @@ const params = new URLSearchParams(window.location.search);
 const product = {
   id: params.get("id"),
   name: decodeURIComponent(params.get("name")),
+  subtitle: decodeURIComponent(params.get("subtitle") || ''),
   price: Number(params.get("price")),
   quantity: Number(params.get("qty")) || 1,
   image: decodeURIComponent(params.get("image")) // decode link ảnh
@@ -21,6 +22,7 @@ if(product.id){
   const existing = cart.find(item => item.id === product.id);
   if(existing){
     existing.quantity += product.quantity;
+    existing.subtitle = product.subtitle;
   } else {
     cart.push(product);
   }

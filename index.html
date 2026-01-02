@@ -7,7 +7,10 @@
 <body>
 
 <h2>Little Hopper</h2>
+<p id="product-subtitle">Vị socola mềm mịn</p> <!-- phụ đề hiển thị -->
+<input type="text" id="product-subtitle-input" placeholder="Thêm mô tả/phụ đề">
 <p>Giá: 450.000₫</p>
+
 
 <button onclick="addToCart()">
   Thêm vào giỏ hàng
@@ -22,19 +25,22 @@ function addToCart() {
   const product = {
     id: "little-hopper",
     name: "Little Hopper",
+    subtitle: encodeURIComponent(document.getElementById("product-subtitle-input").value || ""), // <-- thêm
     price: 450000,
     quantity: parseInt(document.getElementById("product-qty").value),
-    image: encodeURIComponent(document.getElementById("product-image").src) // encode link ảnh
+    image: encodeURIComponent(document.getElementById("product-image").src)
   };
 
-  // Sử dụng iframe để add vào add.html
+  // Gửi qua iframe đến add.html
   const iframe = document.getElementById("cart-frame");
   iframe.src = "add.html?id=" + product.id +
-               "&name=" + encodeURIComponent(product.name) +
+               "&name=" + product.name +
+               "&subtitle=" + product.subtitle + // <-- gửi subtitle
                "&price=" + product.price +
                "&qty=" + product.quantity +
                "&image=" + product.image;
 }
+
 </script>
 
 <iframe id="cart-frame" style="display:none;"></iframe>
