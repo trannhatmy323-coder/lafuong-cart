@@ -24,7 +24,7 @@ function addToCart() {
   const product = {
     id: "little-hopper",
     name: "Little Hopper",
-    subtitle: encodeURIComponent(document.getElementById("product-subtitle-input").value || ""), // <-- thêm
+    subtitle: encodeURIComponent(document.getElementById("product-subtitle").value || ""), // <-- thêm
     price: 450000,
     quantity: parseInt(document.getElementById("product-qty").value),
     image: encodeURIComponent(document.getElementById("product-image").src)
