@@ -32,23 +32,24 @@ body {
 }
 .empty-box {
   text-align:center;
-  max-width:1000px;
+  max-width:100%;
   padding:0px;
   margin: 0px;
 }
 .empty-title {
-  font-size:64px;
+  font-weight: bold;
+  font-size:120px;
   text-align: center;
-  margin-top: 0px;
-  margin-bottom:40px;
+  margin-top: px;
+  margin-bottom:80px;
   font-weight: normal;
 }
 .empty-sub {
-  font-size: 36px;
+  font-size: 72px;
   color:var(--subtext-color);
 }
 .empty-sub2 {
-  font-size: 36px;
+  font-size: 72px;
   color: var(--subtext-color);
 }
 .empty-box p {
@@ -61,35 +62,35 @@ body {
 
 /* CART PAGE */
 .cart-page {
-  max-width:1500px;
+  max-width:3000px;
   margin:0 auto;
   display:none;
 }
 .cart-title { 
-  font-size:56px; 
-  margin-bottom:60px; 
+  font-size:120px; 
+  margin-bottom:80px; 
   font-weight: normal;
 }
 
 /* CART ITEM GRID */
 .cart-item {
   display:grid;
-  grid-template-columns:230px 580px 250px 220px 1fr;
+  grid-template-columns:450px 1200px 400px 500px 1fr;
   gap:14px;
-  border-radius:10px;
-  padding:0px;
+  border-radius:25px;
+  padding:0px 0px 10px;
   align-items:center;
-  margin-bottom:20px;
-  border: 2px solid #bababa;
+  margin-bottom:80px;
+  border: 5px solid #bababa;
 }
 
 .cart-item img {
-  margin-left: 20px;
+  margin-left: 40px;
 }
 
 .item-name {
   padding-left: 5px;
-  font-size:48px;
+  font-size:90px;
   font-weight:400;
   letter-spacing:0.5px;
   margin-bottom: 1dvh;
@@ -97,14 +98,14 @@ body {
 
 .item-price {
   padding-left: 5px;
-  font-size:30px;
+  font-size: 64px;
   color:#777;
   margin-top:6px;
 }
 
 .total-price {
   font-weight: 500;
-  font-size:36px;
+  font-size:72px;
   text-align:right;
   letter-spacing:0.3px;
   padding: 10px 0px 10px 20px;
@@ -118,13 +119,13 @@ body {
 }
 
 .qty button {
-  border: 2px solid #bababa;
+  border: 5px solid #bababa;
   background: transparent;
-  border-radius: 5px;
-  width: 60px;
-  height: 60px;
+  border-radius: 10px;
+  width: 120px;
+  height: 120px;
   font-family: Bitter, serif;
-  font-size: 30px;
+  font-size: 64px;
   font-weight: 300;
   color:#777;
   display: flex;             /* để ký tự ± nằm giữa nút */
@@ -135,29 +136,29 @@ body {
 }
 .qty button:hover {
   transform: scale(1.05); /* phóng to 5% */
-  border: 1px solid #111;
+  border: 5px solid #111;
   color:#111;
 }
 .qty input {
   padding-left: 20px;
   padding-right: 5px;
-  width: 50px;
+  width: 100px;
   border:none;
-  font-size: 30px;
+  font-size: 64px;
   font-family: Lora, serif;
   font-weight: 400;
   text-align: center;        /* số nằm giữa input */
 }
 
 .remove-btn {
-  margin-left: 25px;
-  padding:10px 20px;
+  margin-left: 80px;
+  padding:30px 50px;
   border:1px solid #ddd;
   border-radius:800px;
   background:transparent;
   background-color: #111;
   color:white;
-  font-size:24px;
+  font-size:48px;
   font-family: Bitter, serif;
   font-weight: 500;
   letter-spacing:2px;
@@ -173,37 +174,37 @@ body {
 /* CART SUMMARY */
 .cart-summary {
   padding: 100px 0px;
-  margin-top:70px;
-  padding-top:24px;
-  border-top:1px solid #e5e5e5;
+  margin-top:120px;
+  padding-top:30px;
+  border-top:5px solid #ddd;
 }
 
 .cart-summary div {
-  padding: 30px 0px 0px;
+  padding: 70px 0px 0px;
   display:flex;
   justify-content:space-between;
-  font-size:36px;
-  color: #525252;
-  margin-bottom:12px;
+  font-size:72px;
+  color: #777;
+  margin-bottom:20px;
 }
 
 .cart-summary .total {
-  padding: 10px 0px;
-  margin-top: 10px;
+  padding: 20px 0px;
+  margin-top: 30px;
   color: #111;
-  font-size:42px;
-  font-weight:400;
+  font-size:86px;
+  font-weight:500;
 }
 
 .checkout {
   width:100%;
-  margin-top:30px;
-  padding:20px;
+  margin-top:60px;
+  padding:40px;
   border:1px solid #111;
   border-radius:999px;
   background:#111;
   color:#fff;
-  font-size:30px;
+  font-size:56px;
   font-weight: 400;
   font-family: Bitter, serif;
   letter-spacing:2px;
@@ -282,7 +283,7 @@ function loadCart(){
     const div=document.createElement("div");
     div.className="cart-item";
     div.innerHTML=`
-      <div><img src="${item.image}" alt="${item.name}" style="width:220px;height:220px;object-fit:cover;border-radius:6px;"></div>
+      <div><img src="${item.image}" alt="${item.name}" style="width:380px;height:380px;object-fit:cover;border-radius:6px;"></div>
       <div>
         <div class="item-name">${item.name}</div>
         <div class="item-price">${item.price.toLocaleString()}₫</div>
