@@ -7,42 +7,37 @@
 <body>
 
 <h2>Little Hopper</h2>
-<p id="product.subtitle">Vani, Anh đào & Dâu tây</p> <!-- phụ đề hiển thị -->
+<p id="product-subtitle">Vani, Anh đào & Dâu tây</p>
 <p>Giá: 450.000₫</p>
 
-
-<button onclick="addToCart()">
-  Thêm vào giỏ hàng
-</button>
-<img id="product-image" src="https://images.prismic.io/lf-web/aC30RCdWJ-7kSZ7d_Litter-hopper-01.png?auto=format&width=960&height=960&q=80&fit=max&w=1920" alt="Little Hopper">
 <input type="number" id="product-qty" value="1" min="1">
 
 <button onclick="addToCart()">Thêm vào giỏ hàng</button>
+
+<img id="product-image" src="https://images.prismic.io/lf-web/aC30RCdWJ-7kSZ7d_Litter-hopper-01.png?auto=format&width=960&height=960&q=80&fit=max&w=1920" alt="Little Hopper">
+
+<iframe id="cart-frame" style="display:none;"></iframe>
 
 <script>
 function addToCart() {
   const product = {
     id: "little-hopper",
     name: "Little Hopper",
-    subtitle: encodeURIComponent(document.getElementById("product-subtitle").value || ""), // <-- thêm
+    subtitle: encodeURIComponent(document.getElementById("product-subtitle").innerText || ""),
     price: 450000,
-    quantity: parseInt(document.getElementById("product-qty").value),
+    quantity: parseInt(document.getElementById("product-qty").value) || 1,
     image: encodeURIComponent(document.getElementById("product-image").src)
   };
 
-  // Gửi qua iframe đến add.html
   const iframe = document.getElementById("cart-frame");
   iframe.src = "add.html?id=" + product.id +
                "&name=" + product.name +
-               "&subtitle=" + product.subtitle + // <-- gửi subtitle
+               "&subtitle=" + product.subtitle +
                "&price=" + product.price +
                "&qty=" + product.quantity +
                "&image=" + product.image;
 }
-
 </script>
-
-<iframe id="cart-frame" style="display:none;"></iframe>
 
 </body>
 </html>
