@@ -200,6 +200,37 @@ body {
   font-weight:500;
 }
 
+/* SUMMARY ITEM BREAKDOWN */
+.summary-items {
+  margin-top: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+}
+
+.summary-line {
+  display:grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 20px;
+  font-size:16px;
+  font-family: var(--font-sub);
+  color:#777;
+  padding:6px 0;
+}
+
+.summary-line .name {
+  color:#111;
+}
+
+.summary-line .calc {
+  white-space:nowrap;
+}
+
+.summary-line .line-total {
+  text-align:right;
+  font-weight:400;
+  color:#111;
+}
+
 .checkout {
   width:100%;
   margin-top:10px;
@@ -255,6 +286,7 @@ body {
   <div id="cart-items"></div>
 
   <div class="cart-summary">
+    <div id="summary-items" class="summary-items"></div>
     <div><span>Tạm tính</span><span id="subtotal">0₫</span></div>
     <div class="total"><span>Tổng cộng</span><span id="grand-total">0₫</span></div>
     <button class="checkout" onclick="goToCheckout()">Tiến hành thanh toán</button>
@@ -280,10 +312,23 @@ function loadCart(){
   emptyCart.style.display="none";
 
   let grandTotal=0;
+  const summaryBox = document.getElementById("summary-items");
+  summaryBox.innerHTML = "";
+
 
   cart.forEach((item,index)=>{
     const total=item.price*item.quantity;
     grandTotal+=total;
+
+    const line = document.createElement("div");
+    line.className = "summary-line";
+    line.innerHTML = `
+      <div class="name">${item.name}</div>
+      <div class="calc">${item.price.toLocaleString()} x ${item.quantity}</div>
+      <div class="line-total">${total.toLocaleString()}₫</div>
+      `;
+    summaryBox.appendChild(line);
+
 
     const div=document.createElement("div");
     div.className="cart-item";
